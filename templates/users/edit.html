@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+  <div class="row justify-content-md-center">
+    <div class="col-md-4">
+      <h2 class="join-message">Edit Your Profile.</h2>
+      <form method="POST" id="user_form">
+        {{ form.hidden_tag() }}
+
+        {% for field in form if field.widget.input_type != 'hidden' and field.name != 'password' %}
+        <div class="form-group">
+          {% for error in field.errors %}
+            <span class="text-danger">{{ error }}</span>
+          {% endfor %}
+          {{ field(placeholder=field.label.text, class="form-control") }}
+          </div>
+        {% endfor %}
+
+        <div class="form-group">
+        <p>To confirm changes, enter your password:</p>
+        {% if form.password.errors %}
+          {% for error in form.password.errors %}
+            <span class="text-danger">
+            {{ error }}
+          </span>
+          {% endfor %}
+        {% endif %}
+        {{ form.password(placeholder="Enter your password to confirm", class="form-control") }}
+        </div>
+
+        <div class="edit-btn-area">
+          <button class="btn btn-success">Edit this user!</button>
+          <a href="/users/{{ user_id }}" class="btn btn-outline-secondary">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- Preview secttion -->
+  <div class="row justify-content-md-center mt-4">
+    <div class="col-md-6">
+      <div class="preview">
+        <h3 class="text-center">Preview Your Changes</h3>
+        <div class="profile-header" style="background-image: url('{{ form.header_image_url.data or g.user.header_image_url }}'); height: 200px; background-size: cover; background-position: center;" ></div>
+        <div class="text-center mt-3">
+          <img src="{{ form.image_url.data or g.user.image_url }}" alt="Profile Image" class="img-thumbnail" style="width: 100px; height: 100px;">
+          <h4>{{ form.username.data or g.user.username }}</h4>
+          {% if form.location.data or g.user.location %}
+            <p><i class="fas fa-map-marker-alt"></i> {{ form.location.data or g.user.location }}</p>
+          {% endif %}
+          {% if form.bio.data or g.user.bio %}
+            <p>{{ form.bio.data or g.user.bio }}</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
