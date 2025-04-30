@@ -3,7 +3,6 @@ import os
 from flask import Flask, render_template, request, flash, redirect, session, g, url_for
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
-from dotenv import load_dotenv
 import os
 
 from forms import UserAddForm, LoginForm, MessageForm, UserUpdateForm, ChangePasswordForm, DirectMessageForm
@@ -11,8 +10,6 @@ from models import db, connect_db, User, Message, DirectMessage
 
 
 
-load_dotenv()
-database_url = os.getenv("DATABASE_URL")
 
 
 
